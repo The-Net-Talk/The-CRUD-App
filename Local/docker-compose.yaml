@@ -1,0 +1,27 @@
+services:
+  the-crud-app_postgres:
+      image: postgres:17
+      container_name: the-crud-app_postgres
+      restart: unless-stopped
+      ports:
+        - "5432:5432"
+#      volumes:
+#        - <your local path here>:/var/lib/postgresql/data    # add volume to preserve db data when recreating container
+      environment:
+        POSTGRES_DB: TheCrudApp
+        POSTGRES_USER: username
+        POSTGRES_PASSWORD: password
+  the-crud-app_api:
+    image: the-crud-app
+    container_name: the-crud-app_api
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Database__Host: localhost
+      Database__Port: 5432
+      Database__User: username
+      Database__Password: password
+      Database__Database: TheCrudApp
+      Kestrel__Endpoints__HTTP__Url: http://0.0.0.0:5000
