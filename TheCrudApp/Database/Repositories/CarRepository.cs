@@ -13,7 +13,7 @@ public class CarRepository : ICarRepository
         _databaseContext = databaseContext;
     }
     
-    public async Task<CarDto> GetCarByIdAsync(Guid carId)
+    public async Task<CarDto> GetCarById(Guid carId)
     {
         var car = await _databaseContext.Cars.FirstOrDefaultAsync(c => c.Id == carId);
 
@@ -34,5 +34,5 @@ public class CarRepository : ICarRepository
 
 public interface ICarRepository
 {
-    Task<CarDto> GetCarByIdAsync(Guid carId);
+    Task<CarDto> GetCarById(Guid carId);
 }
