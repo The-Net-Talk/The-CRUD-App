@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TheCrudApp.Database.Entities;
 using TheCrudApp.Exceptions;
 using TheCrudApp.Models.Dto;
 
@@ -30,9 +31,32 @@ public class CarRepository : ICarRepository
             Year = car.Year
         };
     }
+    public async Task<CarDto> CreateCar(string model, decimal price, int year)
+    {
+        var car = new Car
+        {
+            Id = Guid.NewGuid(),
+            Model = model,
+            Price = price,
+            Year = year
+        };
+
+        await _databaseContext.Cars.AddAsync(car);
+        await _databaseContext.SaveChangesAsync();
+
+        var carDTO = new CarDto()
+        {
+            Id = car.Id,
+            Model = car.Model,
+            Price = car.Price,
+            Year = car.Year
+        };
+        return carDTO;
+    }
 }
 
 public interface ICarRepository
 {
     Task<CarDto> GetCarById(Guid carId);
+    Task<CarDto> CreateCar(string model, decimal price, int year);
 }

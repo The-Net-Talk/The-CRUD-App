@@ -28,4 +28,16 @@ public class CarController : ControllerBase
         
         return Ok(car);
     }
+
+    /// <summary>
+    /// Creates car
+    /// </summary>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CarDto))]
+    [HttpPost(Name = "CreateCar")]
+    public async Task<IActionResult> CreateCar(string model, decimal price, int year)
+    {
+        var car = await _carRepository.CreateCar(model, price, year);
+
+        return Ok(car);
+    }
 }
